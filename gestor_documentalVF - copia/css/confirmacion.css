@@ -1,0 +1,55 @@
+/* Estilo general del cuerpo */
+body {
+    margin: 0; /* Elimina el margen por defecto del body */
+    padding: 0; /* Elimina el padding por defecto del body */
+    font-family: Arial, sans-serif; /* Define la fuente principal del documento */
+    background: url('../images/fondo40.jpg') no-repeat left top; /* Establece la imagen de fondo, sin repetición, alineada a la izquierda y arriba */
+    background-size: cover; /* Ajusta la imagen de fondo para cubrir toda el área sin distorsionar */
+    background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll */
+    background-position: left top; /* Asegura que la imagen de fondo esté alineada a la izquierda y arriba */
+}
+
+/* Estilo para la confirmación */
+.confirmation {
+    width: 100%; /* Ancho completo del contenedor */
+    padding: 20px; /* Espacio interno alrededor del contenedor */
+    box-sizing: border-box; /* Incluye padding y border en el ancho y alto del elemento */
+    text-align: center; /* Centra el texto dentro del contenedor */
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    max-width: 800px; /* Ancho máximo del contenedor */
+    position: fixed; /* Posiciona el contenedor de forma fija */
+    top: 50%; /* Posiciona el contenedor en el medio verticalmente */
+    left: 50%; /* Posiciona el contenedor en el medio horizontalmente */
+    transform: translate(-50%, -50%); /* Centra el contenedor utilizando transformaciones */
+    z-index: 10; /* Asegura que el contenedor esté por encima de otros elementos */
+}
+
+/* Estilo de los encabezados */
+.confirmation h1 {
+    color: #333; /* Color del texto del encabezado */
+}
+
+/* Estilo de los enlaces como botones */
+.confirmation a {
+    display: inline-block; /* Permite definir ancho y alto */
+    padding: 10px 20px; /* Espacio interno */
+    margin: 10px 5px; /* Espacio alrededor de los botones */
+    border-radius: 4px; /* Bordes redondeados */
+    background-color: #1e00e2cf; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-decoration: none; /* Elimina el subrayado */
+    cursor: pointer; /* Cambia el cursor a una mano */
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+/* Estilo del enlace al pasar el ratón por encima */
+.confirmation a:hover {
+    background-color: #1409e3; /* Color de fondo al pasar el ratón por encima */
+}
+
+/* Estilo específico para el enlace de cerrar sesión */
+.confirmation a:last-of-type {
+    margin-top: auto; /* Empuja el enlace a la parte inferior */
+    margin-bottom: 10px; /* Espacio inferior */
+}

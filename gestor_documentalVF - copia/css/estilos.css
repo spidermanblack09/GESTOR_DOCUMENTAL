@@ -1,0 +1,121 @@
+/* Estilo general del cuerpo */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('../images/fondo40.jpg') no-repeat left top; /* Alinea la imagen de fondo a la izquierda y arriba */
+    background-size: cover; /* Ajusta la imagen de fondo para cubrir toda el área sin distorsionar */
+    background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll */
+    background-position: left top; /* Asegura que la imagen de fondo esté alineada a la izquierda y arriba */
+}
+
+/* Estilo del contenedor del formulario */
+.form-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo del formulario */
+form {
+    background-color: rgba(190, 199, 199, 0.8); /* Fondo blanco con opacidad */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 100%; /* Ajusta el ancho del formulario al contenedor */
+    margin: 20px 0; /* Margen superior e inferior para separar el formulario del borde del contenedor */
+    position: relative;
+    z-index: 1; /* Asegura que el formulario esté por encima de la imagen de fondo */
+}
+
+/* Ajuste de estilo para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px;
+    }
+    form {
+        width: 90%; /* Ajusta el ancho del formulario al 90% del contenedor en pantallas pequeñas */
+    }
+}
+
+/* Estilo de los encabezados */
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Estilo de las etiquetas */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Estilo de los inputs y selects */
+input[type="text"], input[type="tel"], input[type="email"], select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Estilo del botón */
+button {
+    background-color: #162c43;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Estilo del botón al pasar el ratón por encima */
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para eliminar documentos */
+button[type="button"] {
+    background-color: #dc3545;
+    margin-top: 10px;
+}
+
+button[type="button"]:hover {
+    background-color: #c82333;
+}
+
+/* Estilo para la confirmación */
+.confirmation {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.confirmation h1 {
+    color: #333;
+}
+
+.confirmation a {
+    color: #042951;
+    text-decoration: none;
+}
+
+.confirmation a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para campos de documentos */
+.documento {
+    margin-bottom: 10px;
+}

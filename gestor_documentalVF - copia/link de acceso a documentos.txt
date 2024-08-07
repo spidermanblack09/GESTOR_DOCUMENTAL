@@ -1,0 +1,202 @@
+http://localhost/gestion_documental2/index.php
+http://localhost/solicitud_prestamo/index.php
+http://localhost/gestor_documental/login.php
+
+pegar esto en el ordenador para que me muestre la pagina
+
+index.php
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Solicitud de Préstamo</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <h1>Formato Solicitud de Préstamo, Consulta y Acceso a la Información</h1>
+    <div class="form-container">
+        <form action="procesar_solicitud.php" method="post" id="solicitudForm">
+            <label for="num_solicitud">Número de solicitud u orden de trabajo:</label>
+            <input type="text" name="num_solicitud" id="num_solicitud" required><br><br>
+
+            <label for="unidad">Unidad, dependencia o entidad que realiza la solicitud:</label>
+            <select name="unidad" id="unidad" required>
+                <option value="ARGEN GRICO">ARGEN GRICO</option>
+                <option value="ARGEN GUHIS">ARGEN GUHIS</option>
+                <option value="ARGEN GACOD">ARGEN GACOD</option>
+                <option value="SEGEN GUGED">SEGEN GUGED</option>
+            </select><br><br>
+
+            <label for="grado">Grado:</label>
+            <input type="text" name="grado" id="grado" required><br><br>
+
+            <label for="nombre">Apellidos y Nombres:</label>
+            <input type="text" name="nombre" id="nombre" required><br><br>
+
+            <label for="identificacion">Número de identificación:</label>
+            <input type="text" name="identificacion" id="identificacion" required><br><br>
+
+            <label for="correo">Correo electrónico institucional:</label>
+            <input type="email" name="correo" id="correo" required><br><br>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" name="telefono" id="telefono" required><br><br>
+
+            <label for="documentos">Tipo de documento que requiere:</label>
+            <div id="documentos">
+                <div class="documento">
+                    <select name="tipo_documento[]" required>
+                        <option value="FICHA KARDEX">FICHA KARDEX</option>
+                        <option value="HISTORIAS LABORALES">HISTORIAS LABORALES</option>
+                        <option value="LIBROS">LIBROS</option>
+                        <option value="NOMINAS">NOMINAS</option>
+                        <option value="ORDENES ADMINISTRATIVAS DE PERSONAL OAP">ORDENES ADMINISTRATIVAS DE PERSONAL OAP</option>
+                        <option value="ORDENES ADMINISTRATIVAS DE PERSONAL OGP">ORDENES ADMINISTRATIVAS DE PERSONAL OGP</option>
+                        <option value="RESOLUCIONES">RESOLUCIONES</option>
+                        <option value="ROLLO MICROFILMADO">ROLLO MICROFILMADO</option>
+                    </select>
+                    <input type="text" name="fecha_documento[]" placeholder="Número y año del documento que requiere" required>
+                </div>
+            </div>
+            <button type="button" onclick="agregarDocumento()">Agregar otro documento</button><br><br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <div class="logout-container">
+        <a href="logout.php" class="logout-button">Cerrar sesión</a>
+    </div>
+    <script>
+        function agregarDocumento() {
+            const documentos = document.getElementById('documentos');
+            const nuevoDocumento = document.createElement('div');
+            nuevoDocumento.classList.add('documento');
+            nuevoDocumento.innerHTML = `
+                <select name="tipo_documento[]" required>
+                    <option value="FICHA KARDEX">FICHA KARDEX</option>
+                    <option value="HISTORIAS LABORALES">HISTORIAS LABORALES</option>
+                    <option value="LIBROS">LIBROS</option>
+                    <option value="NOMINAS">NOMINAS</option>
+                    <option value="ORDENES ADMINISTRATIVAS DE PERSONAL OAP">ORDENES ADMINISTRATIVAS DE PERSONAL OAP</option>
+                    <option value="ORDENES ADMINISTRATIVAS DE PERSONAL OGP">ORDENES ADMINISTRATIVAS DE PERSONAL OGP</option>
+                    <option value="RESOLUCIONES">RESOLUCIONES</option>
+                    <option value="ROLLO MICROFILMADO">ROLLO MICROFILMADO</option>
+                </select>
+                <input type="text" name="fecha_documento[]" placeholder="Número y año del documento que requiere" required>
+                <button type="button" onclick="this.parentElement.remove()">Eliminar</button>
+            `;
+            documentos.appendChild(nuevoDocumento);
+        }
+    </script>
+</body>
+</html>
+
+procesar_solicitud.php
+
+<?php
+require 'includes/conexion.php';
+require 'vendor/autoload.php'; // Asegúrate de que PhpSpreadsheet esté instalado y cargado
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $num_solicitud = trim($_POST['num_solicitud']);
+    $unidad = trim($_POST['unidad']);
+    $grado = trim($_POST['grado']);
+    $nombre = trim($_POST['nombre']);
+    $identificacion = trim($_POST['identificacion']);
+    $correo = trim($_POST['correo']);
+    $telefono = trim($_POST['telefono']);
+    $tipo_documento = $_POST['tipo_documento'];
+    $fecha_documento = $_POST['fecha_documento'];
+
+    if (empty($num_solicitud) || empty($unidad) || empty($grado) || empty($nombre) || empty($identificacion) || empty($correo) || empty($telefono) || empty($tipo_documento)) {
+        die('Por favor, complete todos los campos.');
+    }
+
+    try {
+        // Guardar datos en la base de datos
+        $stmt = $conn->prepare('INSERT INTO solicitudes (num_solicitud, unidad, grado, nombre, identificacion, correo, telefono) VALUES (:num_solicitud, :unidad, :grado, :nombre, :identificacion, :correo, :telefono)');
+        $stmt->execute([
+            'num_solicitud' => $num_solicitud,
+            'unidad' => $unidad,
+            'grado' => $grado,
+            'nombre' => $nombre,
+            'identificacion' => $identificacion,
+            'correo' => $correo,
+            'telefono' => $telefono
+        ]);
+
+        $solicitud_id = $conn->lastInsertId();
+
+        foreach ($tipo_documento as $index => $doc) {
+            $fecha = $fecha_documento[$index];
+            $stmt = $conn->prepare('INSERT INTO documentos (solicitud_id, tipo_documento, fecha_documento) VALUES (:solicitud_id, :tipo_documento, :fecha_documento)');
+            $stmt->execute([
+                'solicitud_id' => $solicitud_id,
+                'tipo_documento' => $doc,
+                'fecha_documento' => $fecha
+            ]);
+        }
+
+        // Crear un nuevo archivo Excel
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Encabezados
+        $sheet->setCellValue('A1', 'Fecha y Hora de Solicitud');
+        $sheet->setCellValue('B1', 'Número de Solicitud u Orden de Trabajo');
+        $sheet->setCellValue('C1', 'Unidad, Dependencia o Entidad');
+        $sheet->setCellValue('D1', 'Grado');
+        $sheet->setCellValue('E1', 'Apellidos y Nombres');
+        $sheet->setCellValue('F1', 'Número de Identificación');
+        $sheet->setCellValue('G1', 'Correo Electrónico Institucional');
+        $sheet->setCellValue('H1', 'Teléfono');
+        $sheet->setCellValue('I1', 'Tipo de Documento que Requiere');
+
+        // Datos de la solicitud
+        $fecha_solicitud = date('Y-m-d H:i:s');
+        $tipo_documento_str = implode(", ", $tipo_documento);
+
+        $sheet->setCellValue('A2', $fecha_solicitud);
+        $sheet->setCellValue('B2', $num_solicitud);
+        $sheet->setCellValue('C2', $unidad);
+        $sheet->setCellValue('D2', $grado);
+        $sheet->setCellValue('E2', $nombre);
+        $sheet->setCellValue('F2', $identificacion);
+        $sheet->setCellValue('G2', $correo);
+        $sheet->setCellValue('H2', $telefono);
+        $sheet->setCellValue('I2', $tipo_documento_str);
+
+        // Guardar el archivo Excel
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'solicitud_' . date('Ymd_His') . '.xlsx';
+        $writer->save($filename);
+
+        // Redirigir a una página de confirmación
+        header('Location: confirmacion.php');
+        exit();
+
+    } catch (PDOException $e) {
+        die('Error en la consulta: ' . $e->getMessage());
+    }
+} else {
+    die('Método no permitido.');
+}
+?>
+

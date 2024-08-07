@@ -1,0 +1,97 @@
+/* Estilo general del cuerpo */
+body {
+    margin: 0; /* Elimina el margen por defecto del body */
+    padding: 0; /* Elimina el padding por defecto del body */
+    font-family: Arial, sans-serif; /* Define la fuente principal del documento */
+    background: url('../images/fondo40.jpg') no-repeat left top; /* Establece la imagen de fondo, sin repetición, alineada a la izquierda y arriba */
+    background-size: cover; /* Ajusta la imagen de fondo para cubrir toda el área sin distorsionar */
+    background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll */
+    background-position: left top; /* Asegura que la imagen de fondo esté alineada a la izquierda y arriba */
+}
+
+/* Estilo del contenedor del formulario */
+.form-container {
+    width: 100%; /* Ancho completo del contenedor */
+    padding: 20px; /* Espacio interno alrededor del contenedor */
+    box-sizing: border-box; /* Incluye padding y border en el ancho y alto del elemento */
+    display: flex; /* Usa flexbox para el layout interno del contenedor */
+    flex-direction: column; /* Organiza los elementos hijos en una columna */
+    align-items: center; /* Centra los elementos hijos horizontalmente */
+}
+
+/* Estilo del formulario */
+form {
+    background-color: rgba(190, 199, 199, 0.8); /* Fondo gris claro con opacidad */
+    padding: 20px; /* Espacio interno alrededor del formulario */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor del formulario */
+    max-width: 450px; /* Ancho máximo del formulario */
+    width: 100%; /* Ancho completo del formulario */
+    margin: 20px 0; /* Margen superior e inferior */
+    position: relative; /* Posiciona el elemento relativo a su posición normal */
+    z-index: 1; /* Asegura que el formulario esté por encima de otros elementos */
+}
+
+/* Ajuste de estilo para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 10px; /* Reduce el padding del contenedor en pantallas pequeñas */
+    }
+    form {
+        width: 90%; /* Reduce el ancho del formulario en pantallas pequeñas */
+    }
+}
+
+/* Estilo de los encabezados */
+h1 {
+    text-align: center; /* Centra el texto del encabezado */
+    color: #ffffff; /* Color del texto blanco */
+}
+
+/* Estilo de las etiquetas */
+label {
+    display: block; /* Muestra la etiqueta como un bloque */
+    margin-bottom: 8px; /* Espacio inferior */
+    font-weight: bold; /* Texto en negrita */
+}
+
+/* Estilo de los inputs */
+input[type="text"], input[type="password"] {
+    width: 100%; /* Ancho completo del input */
+    padding: 8px; /* Espacio interno */
+    margin-bottom: 10px; /* Espacio inferior */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+/* Estilo del botón */
+button {
+    background-color: #162c43; /* Fondo azul oscuro */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 15px; /* Espacio interno */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano al pasar sobre el botón */
+    margin-top: 10px; /* Espacio superior */
+}
+
+/* Estilo del botón al pasar el ratón por encima */
+button:hover {
+    background-color: #0056b3; /* Fondo azul más claro al pasar el ratón */
+}
+
+/* Estilo del párrafo que contiene el enlace de registro */
+p {
+    color: #ffffff; /* Establece el color del texto del párrafo a blanco */
+}
+
+/* Estilo del enlace de registro */
+p a {
+    color: #0b1bf7; /* Establece el color del texto del enlace a azul */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+/* Estilo del enlace de registro al pasar el ratón por encima */
+p a:hover {
+    text-decoration: underline; /* Subraya el enlace cuando el ratón pasa por encima */
+}
